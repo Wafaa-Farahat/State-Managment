@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:state_managment/cubit/cubit_basic_syntax/counter_cubit.dart';
-import 'package:state_managment/cubit/cubit_basic_syntax/counter_state.dart';
+import 'package:state_managment/bloc/counter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,9 +30,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("---------Build Parent---------");
     return BlocProvider(
-      create: (context) =>
-          CounterCubit(), // create a new instance of CounterCubit
-      // BlocProvider is a widget that provides a cubit to its children
+      create: (context) => CounterBloc(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -44,11 +41,8 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text('You have pushed the button this many times:'),
-              BlocBuilder<CounterCubit, CounterState>(
+              BlocBuilder<CounterBloc, CounterState>(
                 builder: (context, state) {
-                  //builder generate new build context that will be used to build the widget tree
-                  print("---------Build child---------");
-
                   return Text(
                     state.count
                         .toString(), // Accessing the count from the state
@@ -59,25 +53,21 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: BlocBuilder<CounterCubit, CounterState>(
+        floatingActionButton: BlocBuilder<CounterBloc, CounterState>(
           builder: (context, state) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FloatingActionButton(
-                  onPressed: () => context.read<CounterCubit>().increment(),
-
-                  //this will refresh the state and rebuild the widget
+                  onPressed: () =>
+                      context.read<CounterBloc>().add(IncrementEvent()),
                   tooltip: 'Increment',
                   child: const Icon(Icons.add),
                 ),
                 const SizedBox(height: 10), // Add some space between buttons
                 FloatingActionButton(
-                  onPressed: () => context
-                      .read<CounterCubit>()
-                      .decrement(), //using context.read to access the cubit and read is used to access the cubit without listening to the state changes
-                  // context.watch<CounterCubit>().decrement(), // X-> this will listen to the state changes and rebuild the widget
-                  tooltip: 'Decrement',
+                  onPressed: () =>
+                      context.read<CounterBloc>().add(DecrementEvent()),
                   child: const Icon(Icons.remove),
                 ),
               ],

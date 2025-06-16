@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:state_managment/cubit/cubit_basic_syntax/counter_cubit.dart';
-import 'package:state_managment/cubit/cubit_basic_syntax/counter_state.dart';
+import 'package:state_managment/cubit/cubit_with_data_type/counter_cubit.dart';
 
-void main() {
+void mainDT() {
   runApp(const MyApp());
 }
 
@@ -44,14 +43,13 @@ class MyHomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text('You have pushed the button this many times:'),
-              BlocBuilder<CounterCubit, CounterState>(
+              BlocBuilder<CounterCubit, int>(
                 builder: (context, state) {
                   //builder generate new build context that will be used to build the widget tree
                   print("---------Build child---------");
 
                   return Text(
-                    state.count
-                        .toString(), // Accessing the count from the state
+                    state.toString(), // Accessing the count from the state
                     style: Theme.of(context).textTheme.headlineMedium,
                   );
                 },
@@ -59,7 +57,7 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: BlocBuilder<CounterCubit, CounterState>(
+        floatingActionButton: BlocBuilder<CounterCubit, int>(
           builder: (context, state) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.end,

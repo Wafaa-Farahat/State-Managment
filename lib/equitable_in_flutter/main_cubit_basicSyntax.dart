@@ -46,8 +46,7 @@ class MyHomePage extends StatelessWidget {
               const Text('You have pushed the button this many times:'),
               BlocBuilder<CounterCubit, CounterState>(
                 builder: (context, state) {
-                  //builder generate new build context that will be used to build the widget tree
-                  print("---------Build child---------");
+                  print("---------State : ${state.count}---------");
 
                   return Text(
                     state.count
